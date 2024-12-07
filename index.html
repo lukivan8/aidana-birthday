@@ -1,81 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Приглашение на День Рождения</title>
-    <style>
-        body {
-            font-family: 'brush script mt', sans-serif;
-            background: url('shine.png') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            text-align: center;
-            padding: 50px;
-            background: rgba(250, 247, 247, 0.851);
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            position: absolute; /* Абсолютное позиционирование */
-            top: 50%; /* Расположить на 40% от верхнего края */
-            left: 50%; /* Центрировать по горизонтали */
-            transform: translate(-50%, -50%); /* Сдвиг для идеального центрирования */
-            width: 250px; /* Задайте нужную ширину */
-            height: 500px; /* Задайте нужную высоту */
-        }
-        h1 {
-    color: #000000;
-    font-size: 3rem;
-    margin: 0;
-    transition: transform 0.3s ease, color 0.3s ease;
-}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('./shine.png') center/cover;
+      font-family: 'Dancing Script', cursive;
+      position: relative;
+    }
+    /* Add overlay to dim background */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3); /* Adjust the last value (0.3) to control dimness */
+      z-index: 0;
+    }
 
-h1:hover {
-    transform: scale(1.1) rotate(10deg); /* Увеличение и небольшой поворот */
-    color: #e57698; /* Цвет при наведении */
-}
-        h2 {
-            color: #333;
-            font-size: 1rem;
-        }
-        .details {
-            margin: 50px 0;
-            font-size: 1rem;
-        }
-        footer {
-            margin-top: 50px;
-            font-size: 1rem;
-            color: #555;
-        }
-        .vip-text {
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
-            font-size: 1rem;
-    </style>
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 30px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-family: 'Lobster', cursive;
+      font-size: 3rem;
+      margin: 0 0 1.5rem;
+      background: linear-gradient(45deg, #333 30%, #666 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 400;
+      animation: titleGlow 2s ease-in-out infinite;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    h1:hover {
+      transform: scale(1.3);
+      text-shadow: 0 0 20px rgba(229, 118, 152, 0.8);
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: scale(1.3) rotate(0deg); }
+      25% { transform: scale(1.4) rotate(-5deg); }
+      50% { transform: scale(1.5) rotate(0deg); }
+      75% { transform: scale(1.4) rotate(5deg); }
+    }
+
+    @keyframes titleGlow {
+      0% { text-shadow: 0 0 5px rgba(229, 118, 152, 0.3); }
+      50% { text-shadow: 0 0 20px rgba(229, 118, 152, 0.5); }
+      100% { text-shadow: 0 0 5px rgba(229, 118, 152, 0.3); }
+    }
+
+    .message {
+      font-size: 1.4rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      color: #444;
+    }
+
+    .details {
+      background: rgba(248, 248, 248, 0.8);
+      padding: 1.5rem;
+      border-radius: 25px;
+      margin: 2rem 0;
+      font-size: 1.3rem;
+    }
+
+    .date {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .location {
+      color: #e57698;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.5rem 1.5rem;
+      border: 2px solid #e57698;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      font-size: 1.2rem;
+    }
+
+    .location:hover {
+      background: #e57698;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .signature {
+      margin-top: 2rem;
+      font-size: 1.4rem;
+      color: #666;
+    }
+
+    .heart {
+      display: inline-block;
+      color: #e57698;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1> Birthday party </h1>
-        <h2>Я очень рада сообщить вам, что скоро наступит мой особенный день, 
-            и я бы очень хотела разделить его с вами.Давайте повеселимся, поболтаем и отметим этот день по-настоящему круто.</h2>
-        <div class="details">
-            <p><strong></strong> 14 December 2024 , 15:00</p>
-            <p>
-                <a href="https://2gis.kz/karaganda/geo/70000001046954809" target="_blank" style="color: #e57698; text-decoration: none;">Открыть на карте</a>
-                <div class=""></div>
-                <strong class="vip-text">VIP-кабина TALDYKORGAN</strong>
-            </p>
-        </div>
-        <footer>
-            🤍С нетерпением жду встречи с вами🤍 
-        </footer>
-        <footer>Aidana💋</footer>
+  <div class="card">
+    <h1>Birthday party</h1>
+    <div class="message">
+      Я очень рада сообщить вам, что скоро наступит мой особенный день, и я бы очень хотела разделить его с вами. Давайте повеселимся, поболтаем и отметим этот день по-настоящему круто.
     </div>
-    <pre>
-    <a href="https://example.com">Открыть страницу</a>
-</pre>
+    <div class="details">
+      <div class="date">14 December 2024, 15:00</div>
+      <div>VIP-кабина TALDYKORGAN</div>
+      <a href="#" class="location">Открыть на карте</a>
+    </div>
+    <div class="signature">
+      <div><span class="heart">🤍</span> С нетерпением жду встречи с вами <span class="heart">🤍</span></div>
+      <div style="margin-top: 0.5rem;">Aidana 💋</div>
+    </div>
+  </div>
 </body>
 </html>
