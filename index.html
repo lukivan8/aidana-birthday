@@ -13,8 +13,17 @@
       background: url('./shine.png') center/cover;
       font-family: 'Dancing Script', cursive;
       position: relative;
+      overflow: hidden;
     }
-    /* Add overlay to dim background */
+
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
+
     body::before {
       content: '';
       position: absolute;
@@ -133,8 +142,9 @@
   </style>
 </head>
 <body>
+  <canvas id="confetti-canvas"></canvas>
   <div class="card">
-    <h1>Birthday party</h1>
+    <h1 id="title">Birthday party</h1>
     <div class="message">
       Я очень рада сообщить вам, что скоро наступит мой особенный день, и я бы очень хотела разделить его с вами. Давайте повеселимся, поболтаем и отметим этот день по-настоящему круто.
     </div>
@@ -148,5 +158,83 @@
       <div style="margin-top: 0.5rem;">Aidana 💋</div>
     </div>
   </div>
+  <script>
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let isConfettiPlaying = false;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 10 + 5;
+        this.speedX = Math.random() * 6 - 3;
+        this.speedY = Math.random() * -15 - 5;
+        this.gravity = 0.5;
+        this.rotation = Math.random() * 360;
+        this.rotationSpeed = Math.random() * 10 - 5;
+        this.color = `hsl(${Math.random() * 60 + 330}, 100%, 70%)`; // Pink to gold range
+      }
+
+      update() {
+        this.speedY += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.rotation += this.rotationSpeed;
+      }
+
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation * Math.PI / 180);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+        ctx.restore();
+      }
+    }
+
+    function createConfetti(x, y) {
+      for (let i = 0; i < 50; i++) {
+        particles.push(new Particle(x, y));
+      }
+    }
+
+    function animate() {
+      if (particles.length > 0) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = particles.length - 1; i >= 0; i--) {
+          particles[i].update();
+          particles[i].draw();
+          
+          if (particles[i].y > canvas.height) {
+            particles.splice(i, 1);
+          }
+        }
+        requestAnimationFrame(animate);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        isConfettiPlaying = false;
+      }
+    }
+
+    document.getElementById('title').addEventListener('mouseover', (e) => {
+      if (!isConfettiPlaying) {
+        isConfettiPlaying = true;
+        const rect = e.target.getBoundingClientRect();
+        createConfetti(rect.x + rect.width / 2, rect.y + rect.height / 2);
+        animate();
+      }
+    });
+  </script>
 </body>
 </html>
